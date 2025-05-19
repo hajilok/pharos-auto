@@ -5,7 +5,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const addLp = async (privatekey) => {
   await delay(10000);
-  const { wallet, address } = await handle(privatekey);
+  const { wallet, account, address } = await handle(privatekey);
 
   const erc20Abi = [
     {
@@ -24,12 +24,25 @@ const addLp = async (privatekey) => {
     erc20Abi,
     `0xAD902CF99C2dE2f1Ba5ec4D642Fd7E49cae9EE37`
   );
-  await tokenContract.methods
-    .approve(
-      "0xF8a1D4FF0f9b9Af7CE58E1fc1833688F3BFd6115",
-      `0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff`
-    )
-    .send({ from: address });
+  try {
+    const approveData = await tokenContract.methods
+      .approve(
+        "0xF8a1D4FF0f9b9Af7CE58E1fc1833688F3BFd6115",
+        `0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff`
+      )
+      .send({ from: account.address });
+    if (!approveData.status) {
+      return {
+        message: "Error: Approval failed",
+        status: false,
+      };
+    }
+  } catch (error) {
+    return {
+      message: `Error: Approval failed - ${error.message}`,
+      status: false,
+    };
+  }
 
   await delay(10000);
 

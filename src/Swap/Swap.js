@@ -161,10 +161,23 @@ export const swapUsdcToPharos = async (privatekey) => {
   try {
     await delay(10000);
     const tokenContract = new wallet.eth.Contract(erc20Abi, tokenIn);
-    await tokenContract.methods
-      .approve("0x1a4de519154ae51200b0ad7c90f7fac75547888a", amountIn)
-      .send({ from: address });
-
+    try {
+      const approveData = await tokenContract.methods
+        .approve("0x1a4de519154ae51200b0ad7c90f7fac75547888a", amountIn)
+        .send({ from: address });
+      if (!approveData.status) {
+        return {
+          message: "Error: Approval failed",
+          status: false,
+        };
+      }
+    } catch (error) {
+      return {
+        message: `Error: Approval failed - ${error.message}`,
+        status: false,
+      };
+    }
+    await delay(10000);
     const contract = new wallet.eth.Contract(
       swapABI,
       "0x1a4de519154ae51200b0ad7c90f7fac75547888a"

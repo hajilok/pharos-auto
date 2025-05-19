@@ -66,7 +66,7 @@ const displayBanner = () => {
           chalk.yellow(message),
           chalk.blue(`\n${await autocheckin(jwt, address)}`),
           chalk.green(
-            `\n${getDataSwap.message} ${getDataSwap2.message} \n${getDataAddLp.message} \n${getDataSendToFriend.message}`
+            `\nResult Swap Pharos: ${getDataSwap.message} \nResult swap usdc: ${getDataSwap2.message} \nResul addlp :${getDataAddLp.message} \nResult send friend: ${getDataSendToFriend.message}`
           ),
           chalk.yellowBright(`\n${await verifyTaskSOCIAL(jwt, address)}`),
           chalk.yellowBright(
