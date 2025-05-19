@@ -51,35 +51,41 @@ const displayBanner = () => {
   while (true) {
     for (let cycle = 0; cycle < config.maxTX; cycle++) {
       for (let i = 0; i < wallet.length; i++) {
-        const privatekey = wallet[i];
-        const { message, jwt, address } = await login(privatekey);
-        const getDataSwap = await swapPharostousdc(privatekey, jwt);
-        const getDataSwap2 = await swapUsdcToPharos(privatekey);
-        const getDataAddLp = await addLp(privatekey);
-        const getDataSendToFriend = await sendToFriend(privatekey);
+        try {
+          const privatekey = wallet[i];
+          const { message, jwt, address } = await login(privatekey);
+          const getDataSwap = await swapPharostousdc(privatekey, jwt);
+          const getDataSwap2 = await swapUsdcToPharos(privatekey);
+          const getDataAddLp = await addLp(privatekey);
+          const getDataSendToFriend = await sendToFriend(privatekey);
 
-        if (!message && !jwt) {
-          console.log(chalk.red("Login failed, skipping..."));
-          break;
+          if (!message && !jwt) {
+            console.log(chalk.red("Login failed, skipping..."));
+            break;
+          }
+          console.log(
+            chalk.yellow(message),
+            chalk.blue(`\n${await autocheckin(jwt, address)}`),
+            chalk.green(
+              `\nResult Swap Pharos: ${getDataSwap.message} \nResult swap usdc: ${getDataSwap2.message} \nResul addlp :${getDataAddLp.message} \nResult send friend: ${getDataSendToFriend.message}`
+            ),
+            chalk.yellowBright(`\n${await verifyTaskSOCIAL(jwt, address)}`),
+            chalk.yellowBright(
+              `\n${await verifyTaskOnchain(
+                jwt,
+                address,
+                getDataSwap.txHash,
+                getDataAddLp.txHash,
+                getDataSendToFriend.txHash
+              )}`
+            ) // soon i will update because only txhash send to friend working
+          );
+          await delay(5000); // Delay for 1 second
+        } catch (error) {
+          console.error(chalk.red("Error in iteration:", error));
+          console.log(chalk.red("Skipping to next wallet..."));
+          continue;
         }
-        console.log(
-          chalk.yellow(message),
-          chalk.blue(`\n${await autocheckin(jwt, address)}`),
-          chalk.green(
-            `\nResult Swap Pharos: ${getDataSwap.message} \nResult swap usdc: ${getDataSwap2.message} \nResul addlp :${getDataAddLp.message} \nResult send friend: ${getDataSendToFriend.message}`
-          ),
-          chalk.yellowBright(`\n${await verifyTaskSOCIAL(jwt, address)}`),
-          chalk.yellowBright(
-            `\n${await verifyTaskOnchain(
-              jwt,
-              address,
-              getDataSwap.txHash,
-              getDataAddLp.txHash,
-              getDataSendToFriend.txHash
-            )}`
-          ) // soon i will update because only txhash send to friend working
-        );
-        await delay(5000); // Delay for 1 second
       }
       console.log("Waiting for 24 hours before the next iteration...");
       await delay(4 * 60 * 60 * 1000); // Delay for 1 hours
