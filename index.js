@@ -55,6 +55,9 @@ const displayBanner = () => {
           chalk.blue(`\nProcessing wallet ${i + 1} of ${wallet.length}...`)
         );
         for (let cycle = 0; cycle < config.maxTX; cycle++) {
+          console.log(
+            chalk.yellow(`\n=============================================}...`)
+          );
           try {
             const privatekey = wallet[i];
             const { message, jwt, address } = await login(privatekey);
@@ -82,7 +85,8 @@ const displayBanner = () => {
                   getDataAddLp.txHash,
                   getDataSendToFriend.txHash
                 )}`
-              ) // soon i will update because only txhash send to friend working
+              ), // soon i will update because only txhash send to friend working
+              chalk.yellow(`\=============================================}...`)
             );
             await delay(5000); // Delay for 1 second
           } catch (error) {
