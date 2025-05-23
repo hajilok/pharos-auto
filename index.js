@@ -52,6 +52,9 @@ const displayBanner = () => {
     while (true) {
       for (let i = 0; i < wallet.length; i++) {
         for (let cycle = 0; cycle < config.maxTX; cycle++) {
+          console.log(
+            chalk.blue(`\nProcessing wallet ${i + 1} of ${wallet.length}...`)
+          );
           try {
             const privatekey = wallet[i];
             const { message, jwt, address } = await login(privatekey);
@@ -88,8 +91,17 @@ const displayBanner = () => {
             continue;
           }
         }
+        console.log(
+          chalk.blue(
+            `Wallet ${i + 1} completed with total ${
+              config.maxTX
+            }. \nTry tx with next wallet ...`
+          )
+        );
       }
-      console.log("Waiting for 24 hours before the next iteration...");
+      console.log(
+        `All wallets have been processed. Waiting for 4 hours before the next cycle...`
+      );
       await delay(4 * 60 * 60 * 1000); // Delay for 1 hours
     }
   } catch (error) {
