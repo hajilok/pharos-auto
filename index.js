@@ -56,7 +56,7 @@ const displayBanner = () => {
         );
         for (let cycle = 0; cycle < config.maxTX; cycle++) {
           console.log(
-            chalk.yellow(`\n=============================================}...`)
+            chalk.yellow(`\n==============================================`)
           );
           try {
             const privatekey = wallet[i];
@@ -86,7 +86,7 @@ const displayBanner = () => {
                   getDataSendToFriend.txHash
                 )}`
               ), // soon i will update because only txhash send to friend working
-              chalk.yellow(`\=============================================}...`)
+              chalk.yellow(`\n==============================================`)
             );
             await delay(5000); // Delay for 1 second
           } catch (error) {
