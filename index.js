@@ -51,10 +51,10 @@ const displayBanner = () => {
 
     while (true) {
       for (let i = 0; i < wallet.length; i++) {
+        console.log(
+          chalk.blue(`\nProcessing wallet ${i + 1} of ${wallet.length}...`)
+        );
         for (let cycle = 0; cycle < config.maxTX; cycle++) {
-          console.log(
-            chalk.blue(`\nProcessing wallet ${i + 1} of ${wallet.length}...`)
-          );
           try {
             const privatekey = wallet[i];
             const { message, jwt, address } = await login(privatekey);
