@@ -34,19 +34,25 @@ const displayBanner = () => {
 
 (async () => {
   displayBanner();
-  const wallet = (await fs.readFile("wallet.txt", "utf-8"))
-    .replace(/\r/g, "")
-    .split("\n")
-    .filter(Boolean);
-  if (wallet.length === 0) {
-    console.log(chalk.red("No wallets found. Generating new wallets..."));
-    const result = await generatedWallet();
-    console.log(chalk.green(result));
-    console.log(chalk.green("Wallets generated successfully."));
-    console.log(chalk.green("Please run the script again."));
-    return;
+  try {
+    const wallet = (await fs.readFile("wallet.txt", "utf-8"))
+      .replace(/\r/g, "")
+      .split("\n")
+      .filter(Boolean);
+    if (wallet.length === 0) {
+      console.log(chalk.red("No wallets found. Generating new wallets..."));
+      const result = await generatedWallet();
+      console.log(chalk.green(result));
+      console.log(chalk.green("Wallets generated successfully."));
+      console.log(chalk.green("Please run the script again."));
+      return;
+    }
+    console.log(chalk.green("Wallets loaded successfully."));
+  } catch (error) {
+    console.error(
+      chalk.red("Error reading wallet file. Generating new wallets...")
+    );
   }
-  console.log(chalk.green("Wallets loaded successfully."));
 
   while (true) {
     for (let cycle = 0; cycle < config.maxTX; cycle++) {
