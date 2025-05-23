@@ -50,8 +50,8 @@ const displayBanner = () => {
     console.log(chalk.green("Wallets loaded successfully."));
 
     while (true) {
-      for (let cycle = 0; cycle < config.maxTX; cycle++) {
-        for (let i = 0; i < wallet.length; i++) {
+      for (let i = 0; i < wallet.length; i++) {
+        for (let cycle = 0; cycle < config.maxTX; cycle++) {
           try {
             const privatekey = wallet[i];
             const { message, jwt, address } = await login(privatekey);
