@@ -88,9 +88,9 @@ const displayBanner = () => {
             continue;
           }
         }
-        console.log("Waiting for 24 hours before the next iteration...");
-        await delay(4 * 60 * 60 * 1000); // Delay for 1 hours
       }
+      console.log("Waiting for 24 hours before the next iteration...");
+      await delay(4 * 60 * 60 * 1000); // Delay for 1 hours
     }
   } catch (error) {
     console.error(chalk.red("Error:", error));
