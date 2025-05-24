@@ -5,6 +5,9 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const swapPharostousdc = async (privatekey, jwt) => {
   const { wallet, address, balance } = await handle(privatekey);
+  if (!wallet || !address) {
+    return "RPC Error: Unable to connect to the wallet or address.";
+  }
   console.log(`Wallet: ${address}`);
   if ((await balance.pharos()) < 0.1) {
     try {
@@ -138,6 +141,9 @@ export const swapPharostousdc = async (privatekey, jwt) => {
 export const swapUsdcToPharos = async (privatekey) => {
   await delay(10000);
   const { wallet, address } = await handle(privatekey);
+  if (!wallet || !address) {
+    return "RPC Error: Unable to connect to the wallet or address.";
+  }
 
   const tokenIn = "0xAD902CF99C2dE2f1Ba5ec4D642Fd7E49cae9EE37";
   const tokenOut = "0x76aaada469d23216be5f7c596fa25f282ff9b364";

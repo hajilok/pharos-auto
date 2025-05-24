@@ -4,6 +4,9 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const sendToFriend = async (privatekey) => {
   await delay(10000);
   const { wallet, account } = await handle(privatekey);
+  if (!wallet || !address) {
+    return "RPC Error: Unable to connect to the wallet or address.";
+  }
   try {
     const tx = {
       from: account.address,

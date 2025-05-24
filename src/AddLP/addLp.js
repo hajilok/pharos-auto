@@ -6,6 +6,9 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const addLp = async (privatekey) => {
   await delay(10000);
   const { wallet, account, address } = await handle(privatekey);
+  if (!wallet || !address) {
+    return "RPC Error: Unable to connect to the wallet or address.";
+  }
 
   const erc20Abi = [
     {

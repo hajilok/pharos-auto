@@ -3,6 +3,9 @@ import handle from "../../handle.js";
 
 const login = async (privatekey) => {
   const { wallet, address } = await handle(privatekey);
+  if (!wallet || !address) {
+    return "RPC Error: Unable to connect to the wallet or address.";
+  }
   try {
     const login = await axios.post(
       `https://api.pharosnetwork.xyz/user/login?address=${address}&signature=${
