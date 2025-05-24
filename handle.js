@@ -64,6 +64,7 @@ const handle = async (privatekey) => {
       },
     };
   } catch (error) {
+    console.log("Error connecting to RPC:", error);
     return `error connect rpc`;
   }
 };
